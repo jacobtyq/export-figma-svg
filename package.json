@@ -1,5 +1,5 @@
 {
-  "name": "figma-export-svg",
+  "name": "export-figma-svg",
   "version": "0.0.1",
   "description": "Export SVGs from Figma",
   "main": "index.js",
