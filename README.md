@@ -1,1 +1,1 @@
-# Export SVGs into a single Sprite map
+# Export SVGs from Figma
