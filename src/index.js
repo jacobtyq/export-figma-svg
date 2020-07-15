@@ -38,7 +38,7 @@ const svgExporter = async () => {
       process.env.FIGMA_PROJECT_NODE_ID
     ].document.children;
 
-    const svgs = Utils.findAllByValue(children, "INSTANCE");
+    const svgs = Utils.findAllByValue(children, "COMPONENT");
     const numOfSvgs = svgs.length;
 
     console.log("Number of SVGs", numOfSvgs);
