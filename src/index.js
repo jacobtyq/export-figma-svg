@@ -7,15 +7,6 @@ const rateLimit = 20;
 const waitTimeInSeconds = 45;
 
 const getProjectNode = async () => {
-  console.log(
-    "url",
-    "files/" +
-      process.env.FIGMA_BASE_URL +
-      process.env.FIGMA_PROJECT_ID +
-      "/nodes?ids=" +
-      process.env.FIGMA_PROJECT_NODE_ID
-  );
-
   return await figmaRestApi.get(
     "files/" +
       process.env.FIGMA_PROJECT_ID +
