@@ -44,8 +44,11 @@ const createFolder = async (path) => {
   }
 };
 
+const filterComponentStartingWithDot = svgs => svgs.filter(({ name }) => !name.startsWith('.'))
+
 exports.writeToFile = writeToFile;
 exports.camelCaseToDash = camelCaseToDash;
 exports.flattenArray = flattenArray;
 exports.findAllByValue = findAllByValue;
 exports.createFolder = createFolder;
+exports.filterComponentStartingWithDot = filterComponentStartingWithDot;

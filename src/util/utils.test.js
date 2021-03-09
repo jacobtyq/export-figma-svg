@@ -19,3 +19,17 @@ describe("Flatten Array", () => {
     expect(Utils.flattenArray(array, 2)).toEqual(result);
   });
 });
+
+describe('Filter Components Starting With a Dot', () => {
+  it('should remove components out of the list that start with a dot', () => {
+    expect(Utils.filterComponentStartingWithDot([
+      { id: '798:3672', name: '.downhill_skiing' },
+      { id: '798:3671', name: 'edit_notifications' },
+      { id: '798:3663', name: '.elderly' },
+      { id: '798:3673', name: 'emoji_emotions' },
+    ])).toEqual([
+      { id: '798:3671', name: 'edit_notifications' },
+      { id: '798:3673', name: 'emoji_emotions' },
+    ])
+  })
+})
