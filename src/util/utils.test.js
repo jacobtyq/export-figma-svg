@@ -19,3 +19,18 @@ describe("Flatten Array", () => {
     expect(Utils.flattenArray(array, 2)).toEqual(result);
   });
 });
+
+describe('Filter Private Components ', () => {
+  it('should remove components out of the list that start with a dot or underscore', () => {
+    expect(Utils.filterPrivateComponents([
+      { id: '798:3673', name: '_circle' },
+      { id: '798:3672', name: '.downhill_skiing' },
+      { id: '798:3671', name: 'edit_notifications' },
+      { id: '798:3663', name: '.elderly' },
+      { id: '798:3673', name: 'emoji_emotions' },
+    ])).toEqual([
+      { id: '798:3671', name: 'edit_notifications' },
+      { id: '798:3673', name: 'emoji_emotions' },
+    ])
+  })
+})
