@@ -44,8 +44,11 @@ const createFolder = async (path) => {
   }
 };
 
+const filterPrivateComponents = svgs => svgs.filter(({ name }) => !name.startsWith('.') && !name.startsWith('_'))
+
 exports.writeToFile = writeToFile;
 exports.camelCaseToDash = camelCaseToDash;
 exports.flattenArray = flattenArray;
 exports.findAllByValue = findAllByValue;
 exports.createFolder = createFolder;
+exports.filterPrivateComponents = filterPrivateComponents;
