@@ -24,12 +24,18 @@ const getSVGURL = async (id) => {
 const svgExporter = async () => {
   try {
     const response = await getProjectNode();
-
     const children = await response.data.nodes[
       process.env.FIGMA_PROJECT_NODE_ID
     ].document.children;
 
-    const svgs = Utils.filterPrivateComponents(Utils.findAllByValue(children, "COMPONENT"));
+    // If ignoring private components
+    let svgs;
+    if(process.env.FILTER_PRIVATE_COMPONENTS === 'false') {
+      svgs = Utils.findAllByValue(children, "COMPONENT")
+    } else {
+      svgs = Utils.filterPrivateComponents(Utils.findAllByValue(children, "COMPONENT"));
+    }
+
     const numOfSvgs = svgs.length;
 
     console.log("Number of SVGs", numOfSvgs);
