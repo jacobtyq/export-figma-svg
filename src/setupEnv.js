@@ -34,7 +34,8 @@ rl.question(`${question}`, (input) => {
         'FIGMA_BASE_URL=https://api.figma.com/v1/',
         `FIGMA_PROJECT_ID=${projectID}`,
         `FIGMA_PROJECT_NODE_ID=${nodeID}`,
-        'DEV_ACCESS_TOKEN='
+        'DEV_ACCESS_TOKEN=',
+        'FILTER_PRIVATE_COMPONENTS=false'
       ]
 
       let file = fs.createWriteStream(outputFile)
