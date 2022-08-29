@@ -1,6 +1,8 @@
 require("dotenv").config();
 const axios = require("axios");
-const figmaRestApi = require("./util/figmaRestApi");
+// const figmaRestApi = require("./util/figmaRestApi");
+import figmaRestApi from './util/figmaRestApi'
+import { writeToFile } from './util/utils'
 const Utils = require("./util/utils");
 const outputFolder = "./src/svg/";
 const rateLimit = 20;
@@ -56,7 +58,7 @@ const svgExporter = async () => {
 
         // Get SVG DOM
         const svgDOM = await axios.get(svgURL.data.images[svg.id]);
-        Utils.writeToFile(
+        writeToFile(
           outputFolder + `${Utils.camelCaseToDash(svgName)}.svg`,
           svgDOM.data
         );

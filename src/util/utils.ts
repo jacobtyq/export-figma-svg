@@ -1,17 +1,17 @@
 const fs = require("fs");
 
-const writeToFile = async (filename, data) => {
+export const writeToFile = async (filename, data) => {
   return fs.writeFile(filename, data, (error) => {
     if (error) throw error;
     console.log(`The file ${filename} has been saved!`);
   });
 };
 
-const camelCaseToDash = (string) => {
+export const camelCaseToDash = (string) => {
   return string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 };
 
-const flattenArray = (arr, d = 1) => {
+export const flattenArray = (arr, d = 1) => {
   return d > 0
     ? arr.reduce(
         (acc, val) =>
@@ -21,7 +21,7 @@ const flattenArray = (arr, d = 1) => {
     : arr.slice();
 };
 
-const findAllByValue = (obj, valueToFind) => {
+export const findAllByValue = (obj, valueToFind) => {
   return Object.entries(obj).reduce(
     (acc, [key, value]) =>
       value === valueToFind
@@ -36,7 +36,7 @@ const findAllByValue = (obj, valueToFind) => {
   );
 };
 
-const createFolder = async (path) => {
+export const createFolder = async (path) => {
   try {
     await fs.promises.access(path, fs.constants.F_OK);
   } catch (err) {

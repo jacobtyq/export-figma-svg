@@ -7,4 +7,4 @@ const figmaRestApi = axios.create({
   }
 })
 
-module.exports = figmaRestApi
+export default figmaRestApi
