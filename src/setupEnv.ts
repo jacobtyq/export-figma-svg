@@ -1,12 +1,13 @@
-const readline = require('readline')
-const fs = require('fs')
+import * as readline from 'readline'
+import * as fs from 'fs'
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
-const outputFile = '.env';
 
-const isValidURL = (url) => {
+import { ENV_OUTPUT_FILE } from './constants'
+
+const isValidURL = (url: string) => {
   try {
     new URL(url)
   } catch (_) {
@@ -38,7 +39,7 @@ rl.question(`${question}`, (input) => {
         'FILTER_PRIVATE_COMPONENTS=false'
       ]
 
-      let file = fs.createWriteStream(outputFile)
+      let file = fs.createWriteStream(ENV_OUTPUT_FILE)
       file.on('error', function (err) {
         console.log(err)
       })

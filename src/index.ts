@@ -1,84 +1,86 @@
-require("dotenv").config();
-const axios = require("axios");
-// const figmaRestApi = require("./util/figmaRestApi");
-import figmaRestApi from './util/figmaRestApi'
-import { writeToFile } from './util/utils'
-const Utils = require("./util/utils");
-const outputFolder = "./src/svg/";
-const rateLimit = 20;
-const waitTimeInSeconds = 45;
+import 'dotenv/config'
+import axios from 'axios'
+import figmaRestApi from './api/'
+import {
+  writeToFile,
+  findAllByValue,
+  filterPrivateComponents,
+  camelCaseToDash,
+  createFolder,
+} from './utils'
+import { OUTPUT_FOLDER, RATE_LIMIT, WAIT_TIME_IN_SECONDS } from './constants'
 
 const getProjectNode = async () => {
   return await figmaRestApi.get(
-    "files/" +
+    'files/' +
       process.env.FIGMA_PROJECT_ID +
-      "/nodes?ids=" +
+      '/nodes?ids=' +
       process.env.FIGMA_PROJECT_NODE_ID
-  );
-};
+  )
+}
 
-const getSVGURL = async (id) => {
+const getSVGURL = async (id: string) => {
   return await figmaRestApi.get(
-    "images/" + process.env.FIGMA_PROJECT_ID + "/?ids=" + id + "&format=svg"
-  );
-};
+    'images/' + process.env.FIGMA_PROJECT_ID + '/?ids=' + id + '&format=svg'
+  )
+}
 
 const svgExporter = async () => {
   try {
-    const response = await getProjectNode();
+    const response = await getProjectNode()
     const children = await response.data.nodes[
       process.env.FIGMA_PROJECT_NODE_ID
-    ].document.children;
+    ].document.children
 
     // If ignoring private components
-    let svgs;
-    if(process.env.FILTER_PRIVATE_COMPONENTS === 'false') {
-      svgs = Utils.findAllByValue(children, "COMPONENT")
+    let svgs
+    if (process.env.FILTER_PRIVATE_COMPONENTS === 'false') {
+      svgs = findAllByValue(children, 'COMPONENT')
     } else {
-      svgs = Utils.filterPrivateComponents(Utils.findAllByValue(children, "COMPONENT"));
+      svgs = filterPrivateComponents(findAllByValue(children, 'COMPONENT'))
     }
 
-    const numOfSvgs = svgs.length;
+    const numOfSvgs = svgs.length
 
-    console.log("Number of SVGs", numOfSvgs);
+    console.log('Number of SVGs', numOfSvgs)
 
-    Utils.createFolder(outputFolder);
+    createFolder(OUTPUT_FOLDER)
 
-    for (i = 0; i < numOfSvgs; i += rateLimit) {
-      const requests = svgs.slice(i, i + rateLimit).map(async (svg) => {
+    for (let i = 0; i < numOfSvgs; i += RATE_LIMIT) {
+      const requests = svgs.slice(i, i + RATE_LIMIT).map(async (svg) => {
         // Get URL of each SVG
-        let svgName = await svg.name;
+        let svgName = await svg.name
 
-        if (svgName.includes("/")) {
-          const nameArr = svg.name.split("/").join("-");
-          svgName = nameArr;
+        if (svgName.includes('/')) {
+          const nameArr = svg.name.split('/').join('-')
+          svgName = nameArr
         }
 
-        const svgURL = await getSVGURL(svg.id);
+        const svgURL = await getSVGURL(svg.id)
 
         // Get SVG DOM
-        const svgDOM = await axios.get(svgURL.data.images[svg.id]);
+        const svgDOM = await axios.get(svgURL.data.images[svg.id])
         writeToFile(
-          outputFolder + `${Utils.camelCaseToDash(svgName)}.svg`,
+          OUTPUT_FOLDER + `${camelCaseToDash(svgName)}.svg`,
           svgDOM.data
-        );
-      });
+        )
+      })
 
       await Promise.all(requests)
         .then(() => {
-          console.log(`Wait for ${waitTimeInSeconds} seconds`);
-          return new Promise(function (resolve) {
+          console.log(`Wait for ${WAIT_TIME_IN_SECONDS} seconds`)
+          return new Promise<void>(function (resolve) {
             setTimeout(() => {
-              console.log(`${waitTimeInSeconds} seconds!`);
-              resolve();
-            }, waitTimeInSeconds * 1000);
-          });
+              console.log(`${WAIT_TIME_IN_SECONDS} seconds!`)
+              resolve()
+            }, WAIT_TIME_IN_SECONDS * 1000)
+          })
         })
-        .catch((err) => console.error(`Error proccessing ${i} - Error ${err}`));
+        .catch((err) => console.error(`Error proccessing ${i} - Error ${err}`))
     }
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-};
+}
 
-svgExporter();
+svgExporter()
