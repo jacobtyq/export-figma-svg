@@ -1,3 +1,7 @@
 node_modules
 .env
 src/svg
+
+built/
+# TS -incremental file
+tsconfig.tsbuildinfo
