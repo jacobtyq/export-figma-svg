@@ -1,8 +1,8 @@
 {
   "name": "export-figma-svg",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Export SVGs from Figma",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "TZ=Asia/Singapore jest"
   },
