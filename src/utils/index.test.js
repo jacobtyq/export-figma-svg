@@ -2,6 +2,7 @@ import {
   camelCaseToDash,
   flattenArray,
   filterPrivateComponents,
+  findAllByValue
 } from '../utils'
 
 describe('Converts camelCase to kebab-case', () => {
@@ -37,6 +38,33 @@ describe('Filter Private Components ', () => {
     ).toEqual([
       { id: '798:3671', name: 'edit_notifications' },
       { id: '798:3673', name: 'emoji_emotions' },
+    ])
+  })
+})
+
+describe('Find all by value', () => {
+  it('should be able to find all values in the args', () => {
+    const children = [
+      {
+        id: '3:788',
+        name: 'Media Tracks - Shuffle',
+        type: 'COMPONENT',
+      },
+      {
+        id: '3:787',
+        name: 'Power - Energy',
+        type: 'COMPONENT',
+      },
+      {
+        id: '3:772',
+        name: 'Sliders Hor - 3 Sliders Hor 1',
+        type: 'INSTANCE',
+      },
+    ]
+
+    expect(findAllByValue(children, 'COMPONENT')).toEqual([
+      { id: '3:788', name: 'Media Tracks - Shuffle' },
+      { id: '3:787', name: 'Power - Energy' },
     ])
   })
 })
