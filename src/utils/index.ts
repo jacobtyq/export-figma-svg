@@ -25,7 +25,7 @@ export const flattenArray = (arr: any[], d: number = 1) => {
 }
 
 export const findAllByValue = (
-  obj: { id: string; name: string },
+  obj: { id: string, name: string },
   valueToFind: string
 ) => {
   return Object.entries(obj).reduce(
@@ -35,7 +35,7 @@ export const findAllByValue = (
             id: Object.values(obj.id).join(''),
             name: Object.values(obj.name).join(''),
           })
-        : typeof value === 'object'
+        : typeof value === 'object' && value !== null
         ? acc.concat(findAllByValue(value, valueToFind))
         : acc,
     []
